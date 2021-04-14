@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ㄹㄹ</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <select name="menu" id="menu">
+        <option value="라면">라면</option>
+    </select>
+    
+    <input type="text" id="input">
+
+    <button onclick="addMenu();">추가</button>
+
+    <script>
+
+        const addMenu = () => {
+
+            // console.log($("select#menu").children());
+
+            console.log($("input#input").val());
+
+            if($("select#menu").children().length < 5) {
+
+                if($("input#input").val() != "") {
+
+                    let opt = $("input#input").val();
+
+                    // add는 추가할 option태그
+                    let add = `<option value="${opt}">${opt}</option>`;
+
+                    let menu = $("select#menu").html();
+
+                    $("select#menu").html(menu + add);
+
+                    $("input#input").val("");
+                    $("input#input").focus();
+
+                } else {
+                    
+                    alert("내용을 입력하세요");
+                    $("input#input").focus();
+                }
+
+            } else {
+
+                alert("추가할 수 있는 개수를 초과했습니다용");
+            }
+
+        }
+    </script>
+</body>
+</html>

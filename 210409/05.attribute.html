@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>속성 변경 함수</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>attr() 함수</h1>
+    <p>
+        attr() : 태그가 가지고 있는 속성에 대해 수정, 확인 하는 함수
+    </p>
+    <ul>
+        <li>attr("속성명") : 속성명의 해당하는 속성의 값을 확인</li>
+        <li>attr("속성명", "속성값") : 속성명에 속성값을 대입</li>
+        <li>attr("속셩명", function(i,v){} ) : 속성명에 함수의 반환하는 속성값을 대입</li>
+        <li>attr( {속성명: 속성값, 속성명: 속성값, ...} ) : 객체에 지정된 속성과 속성값을 대입</li>
+    </ul>
+
+    <img src="../210409/dubu.jpeg" alt="" width="100" height="50">
+    <img src="../210409/dubu.jpeg" alt="" width="200" height="100">
+    <img src="../210409/dubu.jpeg" alt="" width="300" height="200">
+
+    <button onclick="sizeChange();">이미지 크기 변경하기</button>
+    <button onclick="imageChange();">이미지 변경하기</button>
+    <button onclick="funcUserChange();">매개변수 함수 이용</button>
+    <button onclick="change();">객체 매개변수 함수 이용</button>
+
+    <script>
+        $( function() {
+
+            // attr함수로 속성값 가져오기
+            let width = $("img").attr("width");
+            console.log(width);
+
+            let height = $("img").attr("height");
+            console.log(height);
+
+            let src = $("img").attr("src");
+            console.log(src);
+        } );
+
+        const sizeChange = () => {
+
+            // $("img").attr("width", "500");
+            // $("img").attr("height", "500");
+
+            // 랜덤사이즈로
+            $("img").attr("width", Math.random()*600+100);
+            $("img").attr("height", Math.random()*600+100);
+
+            // src속성도 바꿀 수 잇어
+        }
+
+        const imageChange = () => {
+
+            $("img").eq(1).attr("src", "../210409/jejudo.jpeg");
+
+            // 짝수 홀수에 따라 이미지 다르게 변경
+            $("img").each( (i, v) => {
+
+                if(i%2 == 0) {
+                    $(v).attr("src", "https://newsimg.hankookilbo.com/cms/articlerelease/2019/04/29/201904291390027161_3.jpg");
+                } else {
+                    $(v).attr("src", "https://cdn.imweb.me/upload/S201712205a3a0910b89f5/a2470afad8a92.jpg");
+                }
+            } )
+        }
+
+        // attr()의 속성값에 함수 -> 함수의 리턴값이 속성값이 된다
+        const funcUserChange = () => {
+
+            $("img").attr("src", (i, v) => {
+
+                if(i%2 == 0) {
+
+                    return "https://cdn.imweb.me/upload/S201712205a3a0910b89f5/a2470afad8a92.jpg";
+
+                } else {
+                    
+                    return "https://newsimg.hankookilbo.com/cms/articlerelease/2019/04/29/201904291390027161_3.jpg";
+                }
+            })
+        }
+
+        const change = () => {
+
+            $("img").first().attr( {
+
+                src : "https://img.hankyung.com/photo/202008/03.23495367.1.jpg",
+                width : "300",
+                height : "500"
+            } );
+        }
+
+    </script>
+
+    <br>
+    <input type="checkbox" value="java">java
+    <input type="checkbox" value="oracle">oracle
+    <input type="checkbox" value="front">front
+    <button onclick="checkboxValue();">값 가져오기</button>
+
+    <script>
+        
+        // const checkboxValue = () => {
+
+            
+        //     $("[type='checkbox']").each( (i,v) => {
+
+        //         console.log(v.attr("value"));
+        //     } );
+
+        //     //$("input").attr("value");
+        // }
+
+
+        // 다시 해보자
+        // const checkboxValue = () => {
+
+        //     $("input[type=checkbox]").attr("value", (i, v) => {
+
+        //         console.log(v);
+        // })
+
+
+
+        // 선생님 풀이 
+        const checkboxValue = () => {
+
+            // $("input[type=checkbox]").attr("value", (i, v) => {
+
+            //     console.log(v);
+            // })
+
+            // 또는 
+            // $("input[type=checkbox]").each((i, v) => {
+
+            //     console.log($(v).attr("value"));
+            // })
+
+            // 또는
+            // $("input[type=checkbox]").each((i, v) => {
+
+            //     console.log($(v).val());
+            // })
+            // input태그의 value값은 attr()말고 val()함수를 이용한다 
+
+    
+            
+
+
+
+            // checkbox에서 check된 value만 가져오기
+
+            // if($("input[type=checkbox]").attr("checked") == "checked") {
+
+            //     console.log($("input[type='checkbox']").val());
+            // }
+
+
+            // 선생님 풀이 
+            $("input[type=checkbox]").each((i, v) => {
+
+                 // console.log($(v).attr("checked")); // 안된다
+
+                 // checked속성은 prop()함수를 이용해야 가져올 수 있다 
+
+                 console.log($(v).prop("checked"));
+                 // check되어있으면 true, 아니면 false를 반환 
+
+                let arr = [];
+
+                 if($(v).prop("checked")) {
+
+                    console.log($(v).val());
+
+                    arr.push($(v).val());
+
+                 }
+
+            });
+
+
+            // 더 쉬운 방법이 있음
+            // 선택자에서 :checked를 이용
+            // console.log($("input[type=checkbox]:checked"));
+            
+            // // 모든 value를 가져오고 싶으면 순회해야함
+            // $("input[type=checkbox]:checked").each( (i,v) => {
+
+            //     // console.log(v.value);
+            //     // 또는 
+            //     console.log($(v).val());
+
+            // } );
+        }
+
+    </script>
+
+    <h2>css 함수</h2>
+    <p>
+        태그의 스타일을 추가, 변경, 확인 할 때 사용하는 함수
+        css( "css속성명" ) : css속성 값 확인
+        css( "css속성명", "속성값" ) : css 속성 적용
+        css( {객체} ) : 다수의 style 속성을 설정
+        css( function(i, v){} ) : 로직에 의해 css속성 적용
+    </p>
+
+    <div id="container1">
+        <h3>test1</h3>
+        <h2>test2</h2>
+        <h1>test3</h1>
+        <p>test4</p>
+    </div>
+
+    <button onclick="checkStyle();">css 속성값 확인하기</button>
+    <button onclick="addStyle();">객체로 스타일 적용</button>
+    <button onclick="funcAddStyle();">함수로 스타일 적용</button>
+    <button onclick="removeAttrTest();">속성 삭제하기</button>
+
+    <script>
+        const checkStyle = () => {
+
+            // console.log($("div#container1").children().css("fontSize"));
+
+            $("div#container1").children().each( (i,v) => {
+
+                console.log($(v).css("fontSize"));
+            } );
+        }
+
+        const addStyle = () => {
+            $("div#container1").children().css( {
+                "fontSize" : "20px",
+                "text-decoration" : "overline",
+                "text-shadow" : "3px 3px 5px gray"
+            } );
+        }
+
+        const funcAddStyle = () => {
+            
+            $("div#container1").children().css( "color", (i, v) => {
+
+                switch(i%4) {
+                    case 0:
+                        return "red";
+                    break;
+                    case 1:
+                        return "orange";
+                    break;
+                    case 2:
+                        return "green";
+                    break;
+                    case 3:
+                        return "blue";
+                    break;
+                }
+
+            } );
+
+        }
+
+        const removeAttrTest = () => {
+
+            $("img:last").removeAttr("src");
+        }
+    </script>
+
+</body>
+</html>

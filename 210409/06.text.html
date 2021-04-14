@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>태그 구문 수정하기</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    
+    <h1>태그에 있는 textnode의 값을 수정해보자</h1>
+    <p>
+        html() : 선택된 태그의 textnode를 출력
+        html("매개변수") : 선택된 태그의 textnode값을 매개변수 값으로 변경
+
+        text() : 선택된 태그의 textnode를 출력
+        text("매개변수") : 선택된 태그의 textnode값을 매개변수 값으로 변경
+
+        차이점 
+        매개변수에 태그 형식이 들어왔을 때
+        html()은 태그를 해석해서 출력
+        text()는 태그를 문자열로 본다. 그냥 출력한다
+
+        이 두 속성은 javascript의 innerHTML과 innerText 와 동일한 역할 
+    </p>
+
+    <div id="container">
+        <p>안녕</p>
+        <p>하이</p>
+        <p>구텐탁</p>
+        <p>봉쥬르</p>
+    </div>
+
+    <button onclick="checkText();">태그 문자 확인</button>
+
+    <script>
+        const checkText = () => {
+
+            $("#container").children().each( (i,v) => {
+
+                // console.log($(v).html());
+                // console.log($(v).text());
+
+                // $(v).html("이제 점심시간이 다가온다!");
+
+                //$(v).text("<mark>이제 text() 점심시간이 다가온다!</mark>");
+                // text()는 <mark>이제 text() 점심시간이 다가온다!</mark> 이렇게 출력된다
+
+                // $(v).html("<mark>이제 점심시간이 다가온다!</mark>");
+                // 형광펜 효과 적용됌 
+
+                $(v).html($(v).html() + "<mark>이제 점심시간이 다가온다!</mark>");
+
+            } );
+        }
+    </script>
+    <br><br><br>
+
+
+
+    <select name="title" id="title">
+        <option value="라면">라면</option>
+    </select>
+
+    <input type="text" id="op"><button onclick="addMenu();">옵션추가</button>
+
+    <script>
+        const addMenu = () => {
+            
+            // let val = $("input").val();
+
+            // $("select").children().each( (i, v) => {
+
+            //     // $(v).html(`<option value="${val}">${val}</option>`);
+            //     // console.log($(v).val()); // 라면
+
+            //     $("select").html($("select").html() + `<option value="${val}">${val}</option>`);
+
+            // } );
+
+
+
+            // 다시해보자 
+
+            // input창에서 입력받은 점심메뉴
+            let input = $("input").val();
+
+            // 입력받은 메뉴로 만든 option태그
+            // let option = $(`<option value='${input}'>${input}</option>`); // 여기가 문제였다
+            let option = `<option value='${input}'>${input}</option>`; // 올바른 코드
+            
+            // select태그 안의 option태그들
+            let options = $("select").html();
+
+            // select태그 안에 기존의 태그 + 새로 만든 option태그
+            $("select").html(options + option);
+
+            
+
+
+
+                // 선생님 풀이
+                // let content = $("#title").html();
+                // console.log(content);
+                // let option = `<option value='${$("#op").val()}'>${$("#op").val()}</option>`;
+                // $("#title").html(`${content}${option}`);
+                
+                // 공란을 추가하지 못하게 하려면?
+                // 전체조건에 input의 입력값이 0이 아닐때 추가 
+                /*
+                if($("select").children().length < 5) {
+
+                    if( $("#op").val().length != 0) { 
+
+                        let content = $("#title").html();
+
+                        // console.log(content);
+
+                        let option = `<option value='${$("#op").val()}'>${$("#op").val()}</option>`;
+
+                        $("#title").html(`${content}${option}`);
+
+                        // 입력이 끝나면 입력창을 비워준다 = value값을 비워준다 
+                        $("#op").val('');
+
+
+
+                    } else {
+
+                        alert("메뉴를 입력하세요");
+                        $("#op").focus();
+                    }
+                
+                } else {
+
+                    alert("메뉴는 5개 이상 추가할 수 없습니다");
+                    $("#op").attr("disabled", "disabled");
+
+                }
+
+                // 메뉴는 5개까지만 추가되게끔 수정 
+                // console.log($("select").children().length);
+                // if($("select").children().length == 5) {
+                //     alert("메뉴는 5개 이상 추가할 수 없습니다");
+                // }
+                    */
+
+                // 상현 풀이
+                /*
+                const addOption = () =>{
+
+                    let ops = $("select#lunchMenu").html();
+                    let addops = "<option value="+($('input#option').val())+">"+$('input#option').val()+"</option>";
+                        
+
+                            if($(addops).val() != 0){
+                                    if($("select#lunchMenu").children().length<5){
+
+                                        $("select#lunchMenu").html(ops+addops);
+                                        $("input#option").val('');
+                                        $("#option").focus();
+                                        
+                                    } else {
+                                            alert('더 이상 입력할 수 없습니다.');
+                                        $("input#option").attr("disabled","disabled");
+                                        $("button#addbtn").removeAttr("onclick")
+
+                                    }
+
+                            } else {
+                                alert('메뉴를 입력하세요!');
+                            }
+                        }
+                        */
+
+        }
+        
+    </script>
+
+</body>
+</html>

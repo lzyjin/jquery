@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클래스 속성 관리하기</title>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <style>
+        .a0{
+            color: aquamarine;
+        }
+        .a1{
+            color: red;
+        }
+        .a2{
+            color: yellow;
+        }
+        .a3{
+            color: green;
+        }
+        .a4{
+            background-color: coral;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>클래스 속성 관리하기</h1>
+    <p>
+        jquery가 제공하는 함수를 통해서 class를 추가, 삭제 할 수 있는 것
+    </p>
+
+    <ul>
+        <li>addClass("클래스명") : 태그에 클래스를 추가</li>
+        <li>removeClass("클래스명") : 태그에 인자의 클래스명이 있으면 삭제 ( 없으면 그냥 넘어감 ) </li>
+        <li>toggleClass("클래스명") : 태그에 클래스 이름이 있으면 삭제, 없으면 추가</li>
+    </ul>
+
+    <div id="container">
+        <h1 class="a">h1</h1>
+        <p>p1</p>
+        <p>p2</p>
+        <span class="a">span</span>
+        <h2>h2</h2>
+    </div>
+
+    <!-- 클래스를 추가한다는 것은 그 클래스에 적용되어있는 css를 적용한다는 것 -->
+
+    <button onclick="addClass();">class 추가하기</button>
+    <button onclick="removeClass();">class 삭제하기</button>
+    <button onclick="toggleClass();">toggle 적용하기</button>
+
+    <script>
+
+        const addClass = () => {
+
+            // div안의 p태그만 선택해서 클래스 추가 -> 스타일 적용 
+            // $("div#container>p").addClass("a1");
+
+
+            // div의 자식들에 a1클래스 추가
+            // $("#container").children().addClass("a1");
+
+            // a3클래스와 a4클래스 추가
+            // $("#container").children().addClass("a3 a4");
+
+
+            // $("#container").children().addClass("a3");
+            // $("#container>span").addClass("a4"); // 클래스 덮어쓰기가 아니라 추가되는 것
+
+
+            // 매개변수로 클래스명 대신 함수를 넣을 수 있다. 
+            $("#container").children().addClass( (i, v) => {
+
+                console.log(i, v);
+                // div의 자식 5개의 인덱스만 출력된다 
+                // class="a"를 추가했더니 그 해당 태그들만 v가 "a"로 출력된다
+
+                // class 속성을 적용
+                // return되는 값이 class속성값으로 추가된다
+                // div의 각 자식들이 a+자기의 인덱스번호로 된 클래스의 스타일을 적용한다
+                return "a" + i;
+
+            } );
+
+        }
+
+        const removeClass = () => {
+
+            // a4클래스가 있으면 삭제 
+            // 없으면 그냥 넘어간다 ( 에러 안남 )
+            $("#container").children().removeClass("a4"); 
+
+            // 매개변수에 함수 넣어보기 ~~~~!!!!
+        }
+
+        const toggleClass = () => {
+
+            // 버튼 클릭하는것만으로 클래스 추가 삭제 번갈아가면서 -> a2클래스의 스타일속성이 적용되고 적용안되고가 번갈아 반복
+            $("#container").children().toggleClass("a2");
+
+            // 매개변수에 함수 넣어보기 ~~~~!!!!
+
+        }
+
+    </script>
+</body>
+
+</html>

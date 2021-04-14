@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>effect 함수 이용하기</title>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h1>animate()</h1>
+    <p>
+        함수를 이용해서 간단하게 애니메이션 효과를 적용하는 것
+    </p>
+    <div id="target"></div>
+
+    <style>
+        #target{
+
+                width: 100px;
+                height: 100px;
+                background-color: chartreuse;
+                /* position: absolute; */
+        }
+    </style>
+
+    <script>
+
+        $("#target").click( (e) => {
+
+                // $(e.target).animate( { left : "200px" } );
+                // 오른쪽으로 200px 만큼 이동
+
+                $(e.target).animate( { left : "200px",  height : "300px", width : "300px", opacity : "0.1"}, 3000, () => {
+
+                             e.target.innerHTML = "애니메이션 끝";
+                } );
+
+        } );
+    </script>
+
+
+
+
+    <h1>show() / hide() / toggle()</h1>
+
+    <p>
+        특정 태그를 보이게 또는 안보이게 하는 함수
+        css의 display : none / block 과 같은 기능
+    </p>
+
+    <button id="showTest">show</button>
+    <button id="hideTest">hide</button>
+    <button id="toggleTest">toggle</button><br>
+
+    <img src="../jejudo.jpeg" alt="" width="200" height="200">
+
+    <script>
+
+        $("#showTest").click( () => {
+
+                // $("img").show();
+
+                // 매개변수로 시간을 넣을 수 있음
+                $("img").show(1000);
+
+        } );
+
+
+        $("#hideTest").click( () => {
+
+                // $("img").hide();
+                // 자동으로 display:none 이 된다
+
+                $("img").hide(1000);
+        } );
+
+        $("#toggleTest").on( "click", (e) => {
+
+                // $("img").toggle();
+
+                $("img").toggle(1000);
+
+        } );
+    </script>
+
+
+
+    <h2>슬라이딩 이용하기</h2>
+    <p>
+        slideUp()
+        slideDown()
+        slideToggle()
+    </p>
+
+    <button id="slideUpTest">slideUp</button>
+    <button id="slideDownTest">slideDown</button>
+    <button id="slideToggleTest">slideToggle</button>
+
+    <div class="a"></div>
+
+    <style>
+        .a{
+
+            width: 300px;
+            height: 30px;
+            border: 3px dotted palevioletred;
+            background-color: lemonchiffon;
+
+        }
+    </style>
+
+    <script>
+
+        $("#slideUpTest").click( (e) => {
+
+                // $(".a").slideUp();
+
+                $(".a").slideUp(1000);
+                // 자동으로 height가 0에 가까워지면서 결국 display : none이 된다
+
+        } );
+
+        $("#slideDownTest").click( (e) => {
+
+                // $(".a").slideDown();
+
+                $(".a").slideDown(1000);
+
+        } );
+
+        $("#slideToggleTest").click( (e) => {
+
+                // $(".a").slideToggle();
+
+                $(".a").slideToggle(2000);
+
+        } );
+    </script>
+
+
+
+
+    <h3>메뉴 만들기</h3>
+    <!-- (div+p[class=contents])*5 -->
+
+    <div id="outter">
+
+        <div class="menu">첫번째 메뉴</div>
+            <p class="contents">내용1</p>
+
+        <div class="menu">두번째 메뉴</div>
+            <p class="contents">내용2</p>
+
+        <div class="menu">세번째 메뉴</div>
+            <p class="contents">내용3</p>
+
+        <div class="menu">네번째 메뉴</div>
+            <p class="contents">내용4</p>
+
+        <div class="menu">다섯번째 메뉴</div>
+            <p class="contents">내용5</p>
+
+    </div>
+
+    <style>
+        .menu{
+            border: 2px lightseagreen solid;
+            background-color: lightsalmon;
+            width: 300px;
+            border-radius: 7px;
+            text-align: center;
+            margin: 5px;
+        }
+        .contents{
+            border: 2px lightsalmon solid;
+            background-color: lightseagreen;
+            width: 300px;
+            height: 150px;
+            border-radius: 7px;
+            text-align: center;
+            margin: 5px;
+            display: none;
+            vertical-align: middle;
+        }
+    </style>
+
+    <script>
+
+        // 클릭하면 해당메뉴의 내용이 열리고 닫히고
+        // 다른 메뉴와는 연관되지 않고 별개로 움직임
+
+        // $(".menu").click( (e) => {
+
+        //     for(let i=0; i < 5; i++) {
+
+        //         $(e.target).eq(`${i}`).next().slideToggle();
+
+        //     }
+
+        // } );
+
+
+        // 이렇게 하는게 훨씬 간단!! 
+        // 왜 이렇게 안했찌?
+        // $(".menu").click( (e) => {
+
+        //         // 클릭한 메뉴에 따라 선택하는 태그도 달라짐
+        //         // 동적으로 선택된다
+        //         $(e.target).next().slideToggle();
+
+
+        // } );
+
+
+
+        // 해당 메뉴를 클릭하면 해당 메뉴의 내용은 열리고, 다른 메뉴의 내용이 열려있으면 닫히도록
+        // 해당메뉴의 내용 하나만 보이게끔
+
+        $(".menu").click( (e) => {
+
+                $(".contents").css("display", "none");
+                // $(".contents").slideUp(); // 이렇게 해도 되네 
+
+                $(e.target).next().slideToggle();
+
+        } );
+
+
+        
+        // 선생님 풀이
+        
+        // $(".contents").prev().on("click",(e)=>{
+
+        //     $(e.target).next().slideToggle();
+
+        //     $(".contents").not($(e.target).next()).css("display","none");
+            
+        // });
+        
+    </script>
+
+
+
+
+    <h3>fade</h3>
+    <p>
+       fadeOut() : 태그를 점점 희미하게 사라지게 함  ( 결국 아예 사라짐 ! )
+       fadeIn() : 태그를 점점 진하게 나타나게 함
+       fadeTo() :  태그를 특정 지점까지 희미하게 함 
+    </p>
+
+    <button id="in">fadeIn</button>
+    <button id="out">fadeOut</button>
+    <button id="toggleF">fadeToggle</button><br>
+
+    <img src="../jejudo.jpeg" id="fade" alt="" width="200" height="200">
+
+    <script>
+
+        $("#in").click( (e) => {
+
+                $("img#fade").fadeIn(1000);
+
+        } );
+
+
+        $("#out").click( (e) => {
+
+                $("img#fade").fadeOut(1000);
+
+        } );
+
+
+        $("#toggleF").click( (e) => {
+
+                $("img#fade").fadeToggle(1000);
+        } );
+
+
+        $("img#fade").hover( (e) =>{
+
+                $(e.target).fadeTo(1000, 1); // 마우스가 들어왔을 때 투명도 
+
+        }, (e) => {
+
+                $(e.target).fadeTo(1000, 0.3); // 마우스가 영역 밖으로 나갔을 때 투명도 
+        } );
+    </script>
+
+
+
+
+    <h1>추가설명 + 화살표함수와 this</h1>
+    <!-- 딥다이브 342페이지 -->
+
+    <p>
+        이벤트핸들러의 함수로 화살표함수를 지정하면 this값은 window 객체
+                        익명함수를 지정하면 this값은 이벤트가 발생한 객체가 된다
+
+        *익명함수로 선언해서 this값으로 처리할것인지, 아니면 화살표함수의 매개변수로 e를 받아서 e.target으로 처리할것인지 2가지 방법
+
+        this를 쓰고싶으면 익명함수를 쓰면 되고, e.target을 쓰고싶으면 화살표 함수를 쓰면 된다
+    </p>
+
+    <script>
+
+        // 화살표함수 
+        // $("img#fade").hover( (e) =>{
+
+        //         $(e.target).fadeTo(1000, 1); // 마우스가 들어왔을 때 투명도 
+
+        //         console.log(this);
+        //         // Window {window: Window, self: Window, document: document, name: "", location: Location, …}
+        //         // 윈도우 함수가 출력
+
+        // } );
+
+        // 익명함수
+        $("img#fade").hover( function(e) {
+
+                    console.log(this);
+                //  <img src ="../jejudo.jpeg" 블라블라>
+                // 이벤트가 발생한 태그가 출력된다
+
+                $(this).fadeTo(100, 1); // $(e.target).fadeTo(100, 1); 과 동일한 실행결과
+
+        });
+    </script>
+
+
+
+
+    <h3>전역함수 선언</h3>
+    
+    <script>
+
+        // 화살표 함수 
+
+        const testThis = () => {
+
+            console.log("testThis", this);
+
+        }
+
+        testThis();
+        // testThis Window {window: Window, self: Window, document: document, name: "", location: Location, …}
+
+
+
+
+        // 익명 함수
+
+        // const annoThis = function() {
+
+        //     console.log("annoThis", this);
+        //     // annoThis Window {window: Window, self: Window, document: document, name: "", location: Location, …}
+        // }
+
+        // annoThis();
+
+
+
+
+        // 매개변수가 있는 익명함수
+
+        const annoThis = function(name) {
+
+            console.log("annoThis", this, name);
+            // annoThis {name: "유병승"} 김상현
+           
+        }
+
+
+
+        // 익명함수로 선언한 함수는 this를 바인딩할 수 있다
+        // call, apply : 연결하고 해당 함수를 바로 실행 
+        // bind : 바로 실행하지 않고 연결된 함수를 반환 
+
+        // annoThis.call( {name: "유병승"} );
+        // annoThis {name: "유병승"} 출력결과가 이렇게 바뀜
+
+        // const test = annoThis.bind( {name: "유병승"} );
+        const test = annoThis.bind( {name: "유병승"}, "김상현" );
+
+        test();
+
+
+
+    </script>
+</body>
+</html>

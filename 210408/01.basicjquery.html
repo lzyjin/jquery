@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h2>선택자 활용하기</h2>
+    <p>
+        jquery에서는 element(tag)를 불러올 때 선택자를 활용한다
+        $("선택자") -> element를 불러옴
+    </p>
+
+    <div id="container"></div>
+    <p class="tt">p1</p>
+    <p class="tt">p2</p>
+    <p class="tt">p3</p>
+    <h3 class="tt">h3 1</h3>
+    <h3 class="tt">h3 2</h3>
+
+    <script>
+
+        // id가 container인 태그 불러오기
+        console.log($("#container"));
+        // S.fn.init [div#container]
+
+
+        // class 선택자를 이용해서 불러오기
+        console.log($(".tt"));
+        // S.fn.init(5) [p.tt, p.tt, p.tt, h3.tt, h3.tt, prevObject: S.fn.init(1)]
+
+
+        // 다중으로 태그를 불러오기
+        // ,로 구분해서 사용
+        console.log($("#container, .tt"));
+        // S.fn.init(6) [div#container, p.tt, p.tt, p.tt, h3.tt, h3.tt, prevObject: S.fn.init(1)]
+
+    </script>
+
+
+
+    <h4>:first, :last, even, odd</h4>
+    <p>
+        선택자:first : 선택자로 선택된 element 중에서 0번 인덱스의 요소를 불러옴<br>
+        선택자:last : 선택자로 선택된 element 중에서 마지막 인덱스의 요소를 불러옴<br>
+        선택자:even : 선택자로 선택된 element 중에서 짝수 인덱스의 요소를 불러옴<br>
+        선택자:odd : 선택자로 선택된 element 중에서 홀수 인덱스의 요소를 불러옴<br>
+    </p>
+
+    <script>
+
+        let temp = $(".tt:first");
+        console.log(temp);
+        // 첫번째 p태그
+
+        temp.css("backgroundColor", "salmon");
+
+
+
+        temp = $(".tt:last");
+        console.log(temp);
+        // 마지막 h3태그
+
+        temp.css("backgroundColor", "crimson");
+
+
+
+
+        // 짝수 인덱스 선택
+        temp = $(".tt:even");
+        console.log(temp);
+        // 0번 2번 4번 인덱스가 해당된다
+
+        temp.css("fontSize", "50px");
+
+
+
+        // 홀수 인덱스 선택
+        temp = $(".tt:odd");
+        console.log(temp);
+
+        temp.css("backgroundColor", "lightgreen");
+
+    </script>
+
+
+    <table>
+        <tr>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>11</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>11</td>
+            <td>12</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>11</td>
+            <td>12</td>
+        </tr>
+    </table>
+
+    <script>
+
+        $("table").css("borderCollapse", "collapse");
+
+        // console.log($("table>tr")); 이거 아님
+        console.log($("table>tbody>tr")); 
+
+        // 짝수 인덱스번호 행에 배경색을 연회색으로
+        $("table>tbody>tr:even").css("backgroundColor", "lightgray");
+
+        // 홀수 인덱스번호 행에 배경색을 연회색으로
+        $("table>tbody>tr:odd").css("backgroundColor", "lightskyblue");
+
+    </script>
+
+    
+
+    <div id="container2">
+        <p>1</p>
+        <p>2</p>
+        <p>3</p>
+        <h2>4</h2>
+        <h2>5</h2>
+        <ul>
+            <li>li 1</li>
+            <li>li 2</li>
+            <li>li 3</li>
+        </ul>
+        <div>
+            <span>s1</span>
+            <span>s2</span>
+            <span>s3</span>
+        </div>
+    </div>
+
+    <script>
+        let temp2 = $("div#container2 *");
+        console.log(temp2);
+        // div안의 모든 태그 선택 
+
+        // let temp2 = $("div#container2 > *");
+        // 이렇게 쓰면 또 다른 태그가 선택되겠지 
+    </script>
+
+
+
+
+    <h3>:eq, :gt, :lt</h3>
+    <ul>
+        <li>선택자:eq(n) : 선택된 태그 중 n번째 인덱스의 태그를 불러옴</li>
+        <li>선택자:gt(n) : 선택된 태그 중 n번째 인덱스보다 큰 인덱스를 가진 태그들을 불러옴</li>
+        <li>선택자:lt(n) : 선택된 태그 중 n번째 인덱스보다 작은 인덱스를 가진 태그들을 불러옴</li>
+    </ul>
+
+    <ul id="target2">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li>10</li>
+    </ul>
+
+    <script>
+
+        let lis3 = $("ul#target2>li");
+        console.log(lis3);
+
+        // eq 
+
+        lis3 = $("ul#target2>li:eq(2)");
+        lis3.css("color", "pink");
+
+
+        // gt
+
+        // 인덱스번호가 3보다 큰 li들 
+        lis3 = $("ul#target2>li:gt(3)");
+
+        //console.log(lis3);
+
+        lis3.css("backgroundColor", "yellow")
+
+
+
+        // lt
+
+        lis3 = $("ul#target2>li:lt(5)");
+        lis3.css("color", "blue");
+
+    </script>
+
+</body>
+</html>

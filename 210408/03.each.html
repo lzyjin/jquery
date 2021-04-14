@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>each함수 활용하기</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h2>ecah함수 활용하기</h2>
+    <p>
+        자바스크립트 배열이나 배열형식으로 가져온 element를 순회하는 함수 
+        forEach문과 유사하다
+    </p>
+
+    <ul>
+        <li>               배열 : $.each( 배열, callback함수(i,v){} )</li>
+        <li>jquery element 배열 : $(선택자).each( function(i,v){ 로직 } )</li>
+    </ul>
+    
+
+    <h3>element 배열을 each()문으로 활용하기</h3>
+
+    <div id="container">
+        <h1>item-0</h1>
+        <h1>item-1</h1>
+        <h1>item-2</h1>
+        <h1>item-3</h1>
+        <h1>item-4</h1>
+    </div>
+
+    <script>
+        $( function () {
+            
+            console.log($("#container>h1")); // 배열형식으로 출력된다 
+
+            // 제이쿼리로 가져온 element에 접근하려면 
+            // console.log($("#container>h1")[0]); // <h1>item-0</h1>
+            // console.log($("#container>h1")[1]); // <h1>item-1</h1>
+            // console.log($("#container>h1")[2]); // <h1>item-2</h1>
+
+
+            // for문으로 간단하게 
+            for(let i=0; i < $("#container>h1").length; i++) {
+
+                console.log($("#container>h1")[i]);
+            }
+
+
+            // each() 함수로 더 간단하게
+            $("#container>h1").each( (i, v) => {
+
+                console.log(i, v);
+
+                // v.css("backgroundColor", "red"); // 에러 
+                // ~~ is not a function 에러는 v는 제이쿼리 식이 아니고 .css()는 제이쿼리 식이라서 에러
+                // -> v를 제이쿼리식으로 바꿔줘야한다 
+                // $(v).css("backgroundColor", "red");
+
+                switch(i%3) {
+
+                    case 0: 
+                        $(v).css("backgroundColor", "red");
+                    break;
+
+                    case 1:
+                        $(v).css("backgroundColor", "orange");
+                    break;
+
+                    case 2:
+                        $(v).css("backgroundColor", "yellow");
+                    break;
+                }
+
+            } );
+            
+        });
+    </script>
+
+
+    <h2>배열 자료형에 each함수 적용하기</h2>
+
+    <script>
+
+        $( function() {
+
+            let names = ["유병승", "제인혁", "신충현", "김예진"];
+
+            names.forEach( (i, v) => {
+
+                console.log(i, v)
+            } );
+
+
+            // jquery 방식으로 반영하면?
+            // $.each( names, (i, v) => {
+
+            //     console.log(i, v);
+            // } );
+
+            // 이렇게도 활용 가능
+            let flag = false;
+            $.each( names, (i, v) => {
+
+                console.log(i, v);
+
+                if(v == "김상현") {
+
+                    flag = true;
+
+                }
+
+            } );
+
+            if(!flag) {
+
+                names.push("김상현");
+            }
+
+            console.log(names);
+            // (5) ["유병승", "제인혁", "신충현", "김예진", "김상현"]
+
+            // 원래 names에 "김상현"이 있으면 더이상 추가되지 않음
+
+        } );
+    </script>
+
+
+</body>
+</html>

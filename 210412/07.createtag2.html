@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>태그 생성</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+
+    <h2>객체 추가하기</h2>
+    <p>
+        추가할태그.prependTo(부모태그) : 부모태그의 맨 위 자식으로 태그를 추가한다
+        추가할태그.appendTo(부모태그) : 부모태그의 맨 마지막 자식으로 태그를 추가함 ( appendChild()와 유사 )
+        추가할태그.insertBefore(선택한태그) : 선택한 태그의 앞에 태그를 추가
+        추가할태그.insertAfter(선택한태그) : 선택한 태그의 뒤에 태그를 추가한다
+    </p>
+
+    <div id="container3">container3</div>
+    <button onclick="prependToTest();">prependTo로 추가하기</button>
+    <button onclick="appendToTest();">appendTo로 추가하기</button>
+    <button onclick="insertBeforeTest();">insertBefore로 추가하기</button>
+    <button onclick="insertAfterTest();">insertAfter로 추가하기</button>
+
+    <script>
+        const prependToTest = () => {
+
+            // $("#container3").prependTo($(`<p>`).html("이건 어디로 들어가니?"));
+            // 이러면 container3라고 적은 div가 사라지는 효과
+
+            // 이렇게 해야 정상 작동 
+            ($(`<p>`).html("이건 어디로 들어가니?")).prependTo($("#container3"));    
+        }
+
+        const appendToTest = () => {
+
+            $("<h4>").html("이것도 넣어보자").appendTo("#container3");
+        }
+
+        const insertBeforeTest = () => {
+
+            $("<ul>").append($("<li>").html("하하")).insertBefore($("#container3"));
+                
+        }
+
+        const insertAfterTest = () => {
+
+            $("<table>").append($("<tr>").append($("<td>").html("테이블임"))).insertAfter($("#container3"));
+        }
+    </script>
+
+
+
+
+
+    <h3>객체 이동하기</h3>
+
+    <p>
+        append, prepend, after, before 함수를 사용하면 새로생성된 태그는 추가되지만, 
+        만약에 페이지에 있는 태그를 선택해서 위 함수들을 쓰면 해당 위치로 지정한 태그가 이동한다.
+    </p>
+
+    <div id="container4">
+        <h3>h1</h3>
+        <h3>h2</h3>
+        <h3>h3</h3>
+        <h3>h4</h3>
+    </div>
+    <button onclick="changeTag();">태그 위치 변경</button>
+
+    <script>
+        const changeTag = () => {
+
+            $("div#container4>h3").eq(0).appendTo($("#container4"));
+        }
+    </script>
+
+    <p>
+        이미지 3개를 추가하고 이미지 경로는 input태그로 입력받아 출력
+        이미지 크기는 200px, 200px, div#container5로 대입
+        button addImg(); 이미지 연결 이미지 추가 *이미지가3개만 입력될 수 있게 설정 
+        button rotateTest(); 이벤트 연결하고 버튼을 누르면 순서가 순차적으로 변경되는 기능 만들기 
+    </p>
+
+    <!-- 선생님 코드 복붙해옴 / 다시 봐야해 -->
+    <input type="text" id="imgSrc" name="imgSrc">
+    <button onclick="addImg();">이미지추가</button>
+    <div id="container5"></div>
+    <button onclick="rotateTest()">돌아라!</button>
+    <script>
+        const rotateTest=()=>{
+            setInterval(()=>{
+                $("#container5").append($("#container5").children().eq(0));
+            },500)
+        }
+        const addImg=()=>{
+            if($("#container5>img").length<3){
+                let img=$("<img>").attr({
+                    src:$("#imgSrc").val(),
+                    width:"200px",
+                    height:"200px"
+                });
+                $("#container5").append(img);
+            }else{
+                alert("이미지는 3개까지만 허용됩니다.");
+            }
+        }
+    </script>
+
+    <h3>태그를 복사, 제거하는 함수</h3>
+    <p>
+        태그.clone(true/false) : 태그를 복사하는 기능
+        true : 그 태그에 연결되어있는 이벤트복사
+        false : 이벤트 복사 안함
+    </p>
+    <button onclick="cloneTest();">복사하기</button>
+    <div id="clone-test">
+        <div id="item1" class="item">
+            <span>안녕</span>
+        </div>
+    </div>
+    <script>
+        $(function(){
+
+            $("#item1").click( (e) => {
+
+                // $(e.target).clone();
+
+                console.log($(e.target).clone());
+                // S.fn.init [div#item1.item.lime, prevObject: S.fn.init(1)]
+                
+                // $("#clone-test").append($(e.target).clone());
+                // 클론으로 복사된 애들은 색깔이 바뀌지 않는다
+                // 디폴트값 false -> 이벤트값은 복사하지 않아서
+
+                // true로 바꾸면 이벤트값도 복사된다
+                $("#clone-test").append($(e.target).clone(true));
+
+            } );
+
+            $("#item1").hover((e)=>{
+                $(e.target).addClass("lime");
+                $(e.target).children("span").addClass("added");
+            },(e)=>{
+                $(e.target).removeClass("lime");
+                $(e.target).children("spane").removeClass("added");
+            })
+        })
+    </script>
+    <style>
+        .item{
+            width:100px;
+            height:100px;
+            display:inline-block;
+            margin:5px 5px 0px 0px;
+            text-align: center;
+            line-height: 100px;
+            background-color: yellowgreen;
+        }
+        .item span{
+            font-size: 24px;
+            font-weight:bold;
+            color:white;
+        }
+        .lime{
+            background-color: lime;
+        }
+        .added{
+            color:palegreen;
+        }
+    </style>
+
+
+
+
+
+    <h3>태그 삭제하기</h3>
+    <p>
+        empty() : 모든 자식 태그를 삭제
+        remove() : 태그를 잘라냄 ( 잘라낸 태그를 반환 ) 연관된 이벤트는 삭제
+        detatch() : 태그를 잘라내기, 연관된 이벤트는 유지
+    </p>
+
+    <button onclick="emptyTest();">empty</button>
+    <button onclick="removeTest();">remove</button>
+    <button onclick="detatchTest();">detatch</button>
+
+    <div id="remove-test" class="box">
+        <div id="item2" class="item">
+            <span>이건 안녕!</span>
+            <span>이건 안녕! 2</span>
+        </div>
+    </div>
+
+    <div id="result" class="box"></div>
+
+    <script>
+
+        const emptyTest = () => {
+
+
+                const e = $("#item2").empty();
+
+                console.log(e);
+                // S.fn.init [div#item2.item]
+                // 삭제한 자식이 아니라 자기자신( div )이 반환된다
+
+                // 이건 안녕! 글자가( span태그가 ) 지워짐
+
+                $("#result").append(e);
+                // e가 이미 있으니까 div의 자식으로 이동됐다
+
+                // span이 2개일때
+                // 두개 다 지워짐
+                // 자식 전체가 다 지워짐
+        }
+
+        const removeTest = () => {
+
+                const e = $("#item2").remove();
+
+                console.log(e);
+                // S.fn.init [div#item2.item]
+                
+
+                // id가 item2인 div자체가 지워짐 -> div를 반환 
+        }
+
+        const detatchTest = () => {
+
+                const e = $("#item2").detach();
+
+                console.log(e);
+                // S.fn.init [div#item2.item]
+               
+
+                $("result").append(e);
+        }
+
+        $("#item2").hover( (e) => {
+
+             $(e.target).addClass("lime");
+
+        }, (e) => {
+
+            $(e.target).removeClass("lime");
+
+        });
+
+    </script>
+
+    <style>
+        .box{
+            width: 100px;
+            height: 100px;
+            padding: 5px 10px 15px 10px;
+            margin: 10px;
+        }
+        #remove-test{
+            border: 2px red solid;
+        }
+        #result{
+            border: 2px wheat dotted;
+        }
+        #item2{
+            height: auto;
+        }
+    </style>
+
+
+    <h2>파일 업로드 추가 삭제 로직 구현하기</h2>
+
+    <table id="table">
+        <tr id="tr">
+            <td>
+                <input type="file" name="upload" id="upload">
+            </td>
+            <td>
+                <button onclick="addFile();">추가</button>
+                <button onclick="deleteFile();">삭제</button>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        const addFile = () => {
+
+            let tr = $("table").children().first();
+
+            $("table#table").append(tr.clone());
+
+            
+        }
+
+        const deleteFile = () => {
+
+            let tr = $("table").children().last();
+
+            tr.remove();
+
+        }
+
+        // 선생님 풀이
+
+        // $("#addFile").click((e)=>{
+        //     const tr=$(e.target).parent().parent().clone(true);
+        //     console.log(tr);
+        //     $("table").append(tr);
+        // });
+        
+        // $("#deleteFile").click((e)=>{
+        //     const target=$(e.target).parent().parent();
+        //     target.remove();
+        // });
+
+    </script>
+
+    <style>
+        table, td{
+            border: 1px black solid;
+        }
+    </style>
+
+</body>
+</html>

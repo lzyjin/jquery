@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+
+    <script src="js/jquery-3.6.0.min.js"></script>
+
+    <script>
+        let jq = $.noConflict(); // $변수가 jq라는 변수로 대체된다
+        // jQuery("#container"); 이렇게 쓰는건 너무 길어
+    </script>
+
+</head>
+
+<body>
+
+    <h3>객체 병합하기</h3>
+
+    <p>
+        $.extend(객체, 추가할 객체1, 추가할 객체2,..) : 여러개의 객체를 하나로 합칠 때 사용 
+    </p>
+
+    <button onclick="addObj();">객체 합치기</button>
+
+    <script>
+        const addObj = () => {
+            
+            let obj = {
+
+                name : "유병승", 
+                age : 19
+            }
+
+            let obj2 = {
+
+                gender : '남',
+                email : 'prince0324@naver.com'
+            }
+
+            let obj3 = {
+
+                height : 180.5,
+                weight : 65.5
+            }
+
+            console.log("합치기 전", obj);
+
+            // 자바스크립트로 객체 병합하기
+            // for(let key in obj2) {
+
+            //     obj[key] = obj2[key];   // 이게 무슨 의미지? 
+                                           // obj[gender] = '남' 이렇게 집어넣음 -> obj2와 동일한 속성과 값이 추가 된다
+
+            // }
+
+            // console.log("합친 후", obj);
+
+
+
+            // 제이쿼리로 객체 병합하기
+            //$.extend(obj, obj2, obj3, {math:90, eng:80, code:100});
+            jq.extend(obj, obj2, obj3, {math:90, eng:80, code:100});
+            console.log("합친 후", obj);
+
+            // 첫번째 인자값으로 들어온 객체 ( obj )에 합쳐진다
+            // 첫번째 인자의 원본값이 변경된다
+
+        }
+    </script>
+
+
+
+
+     <h3>$ 연산자 충돌 방지하기</h3>
+     
+     <p>
+         $ 변수를 다른 라이브러리나 변수로 활용하고 있으면 jquery 내용을 사용할 수 없음
+         $.noConflict;
+     </p>
+
+     <script>
+
+        // let jq = $.noConflict(); 헤드 맨 위에 선언 
+
+         $ = "유병승"; // 가능 
+         console.log($);
+
+         
+     </script>
+
+</body>
+</html>
