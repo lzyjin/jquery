@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    
+</head>
+
+<body>
+   
+    <style>
+        table{
+            border: 1px black solid;
+        }
+        th, td{
+            border: 1px black solid;
+        }
+    </style>
+
+
+    <table>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>첫 번째 게시물 입니다</td>
+            <td>홍길동</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>두 번째 게시물 입니다</td>
+            <td>홍길동</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>세 번째 게시물 입니다</td>
+            <td>홍길동</td>
+        </tr>
+    </table>
+
+    <div id="result">
+        선택한 게시물 : 
+        <span id="resultContent">//</span>
+    </div>
+
+    <script>
+        $("td").click( (e) => {
+
+            // console.log(e.target);
+
+            console.log($(e.target).parent());
+            
+            let result  = $("div#result>span#resultContent");
+            
+            let tr = $(e.target).parent();
+
+            let content1 = tr.eq(0);
+            let content2 = tr.eq(1);
+            let content3 = tr.eq(2);
+
+            result.html(content1.text() + content2.text() + content3.text());
+
+        } );
+    </script>
+
+</body>
+</html>
